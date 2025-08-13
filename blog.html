@@ -33,38 +33,3 @@
   </div>
 
 </div>
-
-<script>
-// List of post file names (replace or add more manually)
-const postsList = [
-  'blog1.html',
-  'blog2.html', // add more as needed
-  'blog3.html'
-];
-
-const postsContainer = document.getElementById('postsContainer');
-
-postsList.forEach(file => {
-  try {
-    // For Android local files, we can use <object> or <iframe> instead of fetch
-    const div = document.createElement('div');
-    div.style.marginBottom = '15px';
-    div.style.background = 'rgba(0,0,0,0.6)';
-    div.style.padding = '20px';
-    div.style.borderRadius = '12px';
-
-    const obj = document.createElement('object');
-    obj.type = 'text/html';
-    obj.data = file;
-    obj.style.width = '100%';
-    obj.style.border = 'none';
-    obj.style.minHeight = '50px';
-
-    div.appendChild(obj);
-    // Insert at top to have newest posts first
-    postsContainer.insertBefore(div, postsContainer.firstChild);
-  } catch(e) {
-    console.log(file + ' not loaded');
-  }
-});
-</script>

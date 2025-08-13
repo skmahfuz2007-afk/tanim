@@ -172,6 +172,7 @@
   </footer>
 
   <script src="https://www.youtube.com/iframe_api"></script>
+
   <script>
     // YouTube player setup
     var player;
@@ -201,28 +202,19 @@
     }
 
     function runHandler() {
-      // Disable button and show loading state
       enterBtn.disabled = true;
       enterText.style.display = 'none';
       spinner.style.display = 'block';
       loadingText.style.display = 'block';
       
-      // Start music if player is available
       if (player) {
-        try {
-          player.playVideo();
-          player.unMute();
-        } catch (error) {
-          console.log('Music failed to start:', error);
-        }
+        try { player.playVideo(); player.unMute(); } 
+        catch (error) { console.log('Music failed to start:', error); }
       }
       
-      // Quick fade after 3 seconds
       setTimeout(() => {
         overlay.classList.add('fade-out');
-        setTimeout(() => {
-          overlay.style.display = 'none';
-        }, 800);
+        setTimeout(() => { overlay.style.display = 'none'; }, 800);
       }, 3000);
     }
 
@@ -232,54 +224,64 @@
     });
 
     // Simple content loader with history tracking
-    var pageHistory = ['home.html']; // Start with home as first page
-    
+    var pageHistory = ['home.html'];
+
     function loadTab(page) {
-      console.log('Loading:', page);
       fetch(page)
         .then(r => r.text())
         .then(html => {
           document.getElementById('content').innerHTML = html;
-          
-          // Add to history if it's not a back navigation
-          if (pageHistory[pageHistory.length - 1] !== page) {
-            pageHistory.push(page);
-            console.log('Page history:', pageHistory);
-          }
-          
-          // Trigger scroll animations for newly loaded content
-          setTimeout(() => {
-            const scrollElements = document.querySelectorAll('.scroll-animate');
-            scrollElements.forEach(el => {
-              el.classList.add('active');
-            });
-          }, 100);
+          if (pageHistory[pageHistory.length - 1] !== page) pageHistory.push(page);
+
+          // Trigger blog posts loader if it's blog.html
+          if(page === 'blog.html') setTimeout(loadBlogPosts, 50);
+
+          const scrollElements = document.querySelectorAll('.scroll-animate');
+          scrollElements.forEach(el => el.classList.add('active'));
         })
-        .catch(err => {
-          console.error('Failed to load:', page, err);
-        });
+        .catch(err => console.error('Failed to load:', page, err));
     }
-    
-    // Function to go back to previous page
+
     function goBack() {
       if (pageHistory.length > 1) {
-        pageHistory.pop(); // Remove current page
-        var previousPage = pageHistory[pageHistory.length - 1];
-        console.log('Going back to:', previousPage);
-        loadTab(previousPage);
-      } else {
-        console.log('Already at home page');
+        pageHistory.pop();
+        loadTab(pageHistory[pageHistory.length - 1]);
       }
     }
 
-    // Make functions available globally BEFORE loading home
+    // ------------------- Blog post loader -------------------
+    function loadBlogPosts() {
+      const postsContainer = document.getElementById('postsContainer');
+      if(!postsContainer) return;
+
+      const MAX_POSTS = 50;
+      const postsList = [];
+      for(let i = 1; i <= MAX_POSTS; i++) postsList.push(`blog${i}.html`);
+
+      postsList.forEach(file => {
+        fetch(file)
+          .then(res => { if(res.ok) return res.text(); else throw "Not found"; })
+          .then(html => {
+            const div = document.createElement('div');
+            div.innerHTML = html;
+            div.style.marginBottom = '15px';
+            div.style.background = 'rgba(0,0,0,0.6)';
+            div.style.padding = '20px';
+            div.style.borderRadius = '12px';
+            if(postsContainer.firstChild)
+              postsContainer.insertBefore(div, postsContainer.firstChild);
+            else
+              postsContainer.appendChild(div);
+          })
+          .catch(() => console.log(file + ' not found, skipping.'));
+      });
+    }
+
+    // Make functions global
     window.loadTab = loadTab;
     window.goBack = goBack;
 
-    // Load home content after loader finishes
-    setTimeout(function() {
-      loadTab('home.html');
-    }, 4000);
+    setTimeout(() => { loadTab('home.html'); }, 4000);
   </script>
 </body>
 </html>

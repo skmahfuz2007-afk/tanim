@@ -25,31 +25,14 @@
       font-size: 14px;
     }
 
-    /* Enhanced loader animations */
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+    /* Loader animations */
+    @keyframes spin {0% {transform: rotate(0deg);}100% {transform: rotate(360deg);}}
+    @keyframes pulse {0%,100% {opacity: 1;}50% {opacity: 0.7;}}
+    @keyframes fadeOut {0% {opacity: 1; transform: scale(1);}100% {opacity: 0; transform: scale(0.95);}}
+    @keyframes glow {0%,100% {box-shadow:0 0 20px rgba(255,215,0,0.4), inset 0 0 20px rgba(255,255,255,0.1);}50% {box-shadow:0 0 30px rgba(255,215,0,0.6), inset 0 0 25px rgba(255,255,255,0.2);}}
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.7; }
-    }
-
-    @keyframes fadeOut {
-      0% { opacity: 1; transform: scale(1); }
-      100% { opacity: 0; transform: scale(0.95); }
-    }
-
-    @keyframes glow {
-      0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.1); }
-      50% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.6), inset 0 0 25px rgba(255, 255, 255, 0.2); }
-    }
-
-    /* Loader overlay with enhanced styling */
     #loading-screen {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      position: fixed; top:0; left:0; right:0; bottom:0;
       background: linear-gradient(135deg, #001a3d 0%, #002c6c 50%, #001a3d 100%);
       color: white;
       display: flex;
@@ -57,122 +40,74 @@
       justify-content: center;
       align-items: center;
       z-index: 9999;
-      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.8s cubic-bezier(0.4,0,0.2,1);
       backdrop-filter: blur(10px);
     }
-
     #loading-screen::before {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: 
-        radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(0, 44, 108, 0.3) 0%, transparent 70%);
+      top:0; left:0; right:0; bottom:0;
+      background: radial-gradient(circle at 20% 30%, rgba(255,215,0,0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 70%, rgba(255,255,255,0.05) 0%, transparent 50%),
+                  radial-gradient(circle at 50% 50%, rgba(0,44,108,0.3) 0%, transparent 70%);
       pointer-events: none;
     }
 
-    /* Enhanced enter button */
     #enter-btn {
       padding: 18px 45px;
       font-size: 26px;
       background: linear-gradient(145deg, #ffd700 0%, #ffed4e 20%, #ffd700 40%, #cdaa00 100%);
-      border: 2px solid rgba(255, 255, 255, 0.3);
+      border: 2px solid rgba(255,255,255,0.3);
       border-radius: 50px;
       cursor: pointer;
       font-weight: 700;
-      user-select: none;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
       color: #1a1a1a;
       position: relative;
       overflow: hidden;
-      transform: scale(1);
-      transition: all 0.3s ease;
-      animation: glow 2s infinite alternate;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
       min-width: 160px;
+      animation: glow 2s infinite alternate;
+      transition: all 0.3s ease;
     }
-
-    #enter-btn:hover {
-      transform: scale(1.05);
-      background: linear-gradient(145deg, #ffed4e 0%, #ffd700 20%, #ffed4e 40%, #e6c200 100%);
-    }
-
-    #enter-btn:active {
-      transform: scale(0.98);
-    }
-
+    #enter-btn:hover {transform: scale(1.05); background: linear-gradient(145deg, #ffed4e 0%, #ffd700 20%, #ffed4e 40%, #e6c200 100%);}
+    #enter-btn:active {transform: scale(0.98);}
     #enter-btn::before {
       content: '';
-      position: absolute;
-      top: -2px;
-      left: -100%;
-      width: 100%;
-      height: calc(100% + 4px);
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      position: absolute; top:-2px; left:-100%; width:100%; height:calc(100%+4px);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
       transition: left 0.6s;
     }
+    #enter-btn:hover::before {left:100%;}
 
-    #enter-btn:hover::before {
-      left: 100%;
-    }
-
-    /* Enhanced spinner */
     #spinner {
-      border: 3px solid rgba(255, 255, 255, 0.2);
-      border-top: 3px solid #ffffff;
+      border: 3px solid rgba(255,255,255,0.2);
+      border-top: 3px solid #fff;
       border-radius: 50%;
-      width: 20px;
-      height: 20px;
+      width:20px; height:20px;
       animation: spin 0.8s linear infinite;
-      display: none;
-      box-shadow: 
-        0 0 10px rgba(255, 255, 255, 0.5),
-        inset 0 0 10px rgba(255, 255, 255, 0.2);
+      display:none;
     }
 
-    /* Loading text animation */
-    #loading-text {
-      margin-top: 30px;
-      font-size: 18px;
-      font-weight: 300;
-      opacity: 0.8;
-      animation: pulse 2s infinite;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
-    /* Fade out animation class */
-    .fade-out {
-      animation: fadeOut 0.8s ease-out forwards;
-    }
+    #loading-text {margin-top:30px; font-size:18px; font-weight:300; opacity:0.8; animation:pulse 2s infinite; letter-spacing:2px; text-transform:uppercase;}
+    .fade-out {animation: fadeOut 0.8s ease-out forwards;}
   </style>
 </head>
 <body>
-  <!-- Music Player (hidden) -->
   <div id="yt-audio-player" style="position:absolute; left:-9999px; width:1px; height:1px;"></div>
 
-  <!-- Enhanced Loader Overlay -->
   <div id="loading-screen">
-    <button id="enter-btn">
-      <span id="enter-text">Enter</span>
-      <div id="spinner"></div>
-    </button>
-    <div id="loading-text" style="display: none;">Loading Experience...</div>
+    <button id="enter-btn"><span id="enter-text">Enter</span><div id="spinner"></div></button>
+    <div id="loading-text" style="display:none;">Loading Experience...</div>
   </div>
 
-  <!-- Main content gets loaded here -->
   <div id="content"></div>
 
-  <footer>
-    &copy; 2025 SHAIKH TANIM MAHFUZ. All rights reserved.
-  </footer>
+  <footer>&copy; 2025 SHAIKH TANIM MAHFUZ. All rights reserved.</footer>
 
   <script src="https://www.youtube.com/iframe_api"></script>
-
   <script>
     // YouTube player setup
     var player;
@@ -184,104 +119,59 @@
 
     function onYouTubeIframeAPIReady() {
       player = new YT.Player('yt-audio-player', {
-        height: '1',
-        width: '1',
-        videoId: 'sF80I-TQiW0',
-        playerVars: {
-          autoplay: 0,
-          controls: 0,
-          modestbranding: 1,
-          disablekb: 1,
-          loop: 1,
-          fs: 0,
-          playsinline: 1,
-          mute: 1,
-          origin: window.location.origin
-        }
+        height: '1', width:'1', videoId: 'sF80I-TQiW0',
+        playerVars: {autoplay:0,controls:0,modestbranding:1,disablekb:1,loop:1,fs:0,playsinline:1,mute:1,origin: window.location.origin}
       });
     }
 
     function runHandler() {
-      enterBtn.disabled = true;
-      enterText.style.display = 'none';
-      spinner.style.display = 'block';
-      loadingText.style.display = 'block';
-      
-      if (player) {
-        try { player.playVideo(); player.unMute(); } 
-        catch (error) { console.log('Music failed to start:', error); }
-      }
-      
-      setTimeout(() => {
-        overlay.classList.add('fade-out');
-        setTimeout(() => { overlay.style.display = 'none'; }, 800);
-      }, 3000);
+      enterBtn.disabled=true; enterText.style.display='none'; spinner.style.display='block'; loadingText.style.display='block';
+      if(player) { try { player.playVideo(); player.unMute(); } catch(e){console.log('Music failed:',e);} }
+      setTimeout(()=>{ overlay.classList.add('fade-out'); setTimeout(()=>{overlay.style.display='none';},800); },3000);
     }
+    enterBtn.addEventListener('click', function h(){ enterBtn.removeEventListener('click',h); runHandler(); });
 
-    enterBtn.addEventListener('click', function handleClick() {
-      enterBtn.removeEventListener('click', handleClick);
-      runHandler();
-    });
-
-    // Simple content loader with history tracking
+    // Content loader with history
     var pageHistory = ['home.html'];
-
-    function loadTab(page) {
-      fetch(page)
-        .then(r => r.text())
-        .then(html => {
-          document.getElementById('content').innerHTML = html;
-          if (pageHistory[pageHistory.length - 1] !== page) pageHistory.push(page);
-
-          // Trigger blog posts loader if it's blog.html
-          if(page === 'blog.html') setTimeout(loadBlogPosts, 50);
-
-          const scrollElements = document.querySelectorAll('.scroll-animate');
-          scrollElements.forEach(el => el.classList.add('active'));
-        })
-        .catch(err => console.error('Failed to load:', page, err));
+    function loadTab(page){
+      fetch(page).then(r=>r.text()).then(html=>{
+        document.getElementById('content').innerHTML = html;
+        if(pageHistory[pageHistory.length-1]!==page){ pageHistory.push(page); }
+        // If blog page, load posts
+        if(page==='blog.html'){ setTimeout(loadBlogPosts,50); }
+      }).catch(err=>console.error('Failed to load:',page,err));
     }
 
-    function goBack() {
-      if (pageHistory.length > 1) {
-        pageHistory.pop();
-        loadTab(pageHistory[pageHistory.length - 1]);
-      }
+    function goBack(){
+      if(pageHistory.length>1){ pageHistory.pop(); loadTab(pageHistory[pageHistory.length-1]); }
     }
+
+    window.loadTab=loadTab;
+    window.goBack=goBack;
+
+    setTimeout(()=>{ loadTab('home.html'); },4000);
 
     // ------------------- Blog post loader -------------------
-    function loadBlogPosts() {
+    function loadBlogPosts(){
       const postsContainer = document.getElementById('postsContainer');
       if(!postsContainer) return;
-
-      const MAX_POSTS = 50;
-      const postsList = [];
-      for(let i = 1; i <= MAX_POSTS; i++) postsList.push(`blog${i}.html`);
-
-      postsList.forEach(file => {
+      const MAX_POSTS=50;
+      for(let i=1;i<=MAX_POSTS;i++){
+        const file=`blog${i}.html`; // Must be relative to index.html root
         fetch(file)
-          .then(res => { if(res.ok) return res.text(); else throw "Not found"; })
-          .then(html => {
-            const div = document.createElement('div');
-            div.innerHTML = html;
-            div.style.marginBottom = '15px';
-            div.style.background = 'rgba(0,0,0,0.6)';
-            div.style.padding = '20px';
-            div.style.borderRadius = '12px';
-            if(postsContainer.firstChild)
-              postsContainer.insertBefore(div, postsContainer.firstChild);
-            else
-              postsContainer.appendChild(div);
-          })
-          .catch(() => console.log(file + ' not found, skipping.'));
-      });
+        .then(r=>{if(r.ok) return r.text(); else throw "Not found";})
+        .then(html=>{
+          const div=document.createElement('div');
+          div.innerHTML=html;
+          div.style.marginBottom='15px';
+          div.style.background='rgba(0,0,0,0.6)';
+          div.style.padding='20px';
+          div.style.borderRadius='12px';
+          postsContainer.insertBefore(div,postsContainer.firstChild);
+        })
+        .catch(err=>{ console.log(file+' not found, skipping.'); });
+      }
     }
-
-    // Make functions global
-    window.loadTab = loadTab;
-    window.goBack = goBack;
-
-    setTimeout(() => { loadTab('home.html'); }, 4000);
   </script>
 </body>
 </html>
